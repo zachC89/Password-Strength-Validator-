@@ -12,6 +12,17 @@ This project is part of my ongoing learning in Python, security fundamentals, an
   - Strength percentage
   - List of missing requirements
   - Clear, user-friendly feedback
+ 
+## 🧪 Example Usage
+
+```python
+from password_validator import check_password_strength
+
+password = "Hello123!"
+percentage, missing = check_password_strength(password)
+
+print("Strength:", percentage)
+print("Missing:", missing)
 
 ## 🧠 What I Learned
 - How to break down validation logic into clean, testable steps
