@@ -1,58 +1,33 @@
 """
-Temporary test runner for the SecurePass Validator project.
+Temporary test runner for the SecurePass Validator blocklist module.
 
-This file tests the functions currently implemented in validator.py.
-It will be expanded later as additional modules are completed.
+This file tests whether blocklist.py can load the password blocklist
+and correctly identify blocked and non-blocked passwords.
 """
 
-
-from validator import validate_name, validate_password
-
-
-def display_errors(errors: list[str]) -> None:
-    """
-    Print each validation error on a separate line.
-
-    Args:
-        errors: A list of validation error messages.
-    """
-    for error in errors:
-        print(f"- {error}")
+from blocklist import load_blocklist, is_password_blocklisted
 
 
 def main() -> None:
     """
-    Run the temporary validator test program.
+    Run isolated tests for the password blocklist module.
     """
-    print("SecurePass Validator")
-    print("--------------------")
+    blocklist = load_blocklist("Most-Popular-Letter-Passes.txt")
 
-    first_name = input("Enter your first name: ")
-    last_name = input("Enter your last name: ")
+    print(f"Loaded {len(blocklist):,} blocklisted passwords.")
 
-    name_errors: list[str] = []
-    name_errors.extend(validate_name(first_name, "First name"))
-    name_errors.extend(validate_name(last_name, "Last name"))
+    blocked_password = "password"
+    safe_password = "River clouds drift after midnight!"
 
-    if name_errors:
-        print("\nName validation failed:")
-        display_errors(name_errors)
-        return
-
-    password = input("Create a password: ")
-
-    password_errors = validate_password(
-        password,
-        first_name,
-        last_name,
+    print(
+        f'"{blocked_password}" blocklisted:',
+        is_password_blocklisted(blocked_password, blocklist),
     )
 
-    if password_errors:
-        print("\nPassword validation failed:")
-        display_errors(password_errors)
-        return
-
-    print("\nPassword passed the current validation rules.")
+    print(
+        f'"{safe_password}" blocklisted:',
+        is_password_blocklisted(safe_password, blocklist),
+    )
 
 
 if __name__ == "__main__":
