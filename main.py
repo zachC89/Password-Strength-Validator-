@@ -1,33 +1,38 @@
 """
-Temporary test runner for the SecurePass Validator blocklist module.
+Temporary test runner for the SecurePass Validator hash manager.
 
-This file tests whether blocklist.py can load the password blocklist
-and correctly identify blocked and non-blocked passwords.
+This file tests password hashing and verification using Argon2.
 """
 
-from blocklist import load_blocklist, is_password_blocklisted
+from hash_manager import hash_password, verify_password
 
 
 def main() -> None:
     """
-    Run isolated tests for the password blocklist module.
+    Run isolated tests for the password hashing module.
     """
-    blocklist = load_blocklist("Most-Popular-Letter-Passes.txt")
+    test_password = "River clouds drift after midnight!"
 
-    print(f"Loaded {len(blocklist):,} blocklisted passwords.")
+    first_hash = hash_password(test_password)
+    second_hash = hash_password(test_password)
 
-    blocked_password = "password"
-    safe_password = "River clouds drift after midnight!"
+    print("Original password:")
+    print(test_password)
 
-    print(
-        f'"{blocked_password}" blocklisted:',
-        is_password_blocklisted(blocked_password, blocklist),
-    )
+    print("\nFirst Argon2 hash:")
+    print(first_hash)
 
-    print(
-        f'"{safe_password}" blocklisted:',
-        is_password_blocklisted(safe_password, blocklist),
-    )
+    print("\nSecond Argon2 hash:")
+    print(second_hash)
+
+    print("\nDo the two hashes match?")
+    print(first_hash == second_hash)
+
+    print("\nCorrect password verification:")
+    print(verify_password(test_password, first_hash))
+
+    print("\nIncorrect password verification:")
+    print(verify_password("Wrong password example!", first_hash))
 
 
 if __name__ == "__main__":
