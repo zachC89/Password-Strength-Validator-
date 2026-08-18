@@ -1,8 +1,9 @@
 """
 Password validation logic for the SecurePass Validator project.
 
-This module validates user names and password policy requirements.
-It does not perform password hashing, blocklist checking, or storage.
+This module validates user-provided identity information and password
+policy requirements. It does not perform password hashing, blocklist
+checking, or password storage.
 """
 
 MIN_PASSWORD_LENGTH = 16
